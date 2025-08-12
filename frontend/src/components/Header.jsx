@@ -33,7 +33,7 @@ const Header = () => {
             <img
               src={assets.group_profiles}
               alt="Group Profiles"
-              className="w-14 h-14 rounded-full border-2 border-white object-cover"
+              className=""
             />
             <p className="text-white/80">
               Join 50,000+ satisfied patients who trust our platform
