@@ -1,5 +1,5 @@
 import React from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import Home from './pages/Home'
 import About from './pages/About'
 import Contact from './pages/Contact'
@@ -11,8 +11,14 @@ import Appointment from './pages/Appointment'
 import Navbar from './components/Navbar'
 
 const App = () => {
+  const location = useLocation()
+
+  // Routes that should NOT have margins (full-width layout)
+  const noMarginRoutes = ['/']
+  const hasMargin = !noMarginRoutes.includes(location.pathname)
+
   return (
-    <div className='mx-4 sm:mx-[10%] md:mx-[15%] lg:mx-[20%] xl:mx-[25%] 2xl:mx-[30%]'>
+    <div className={hasMargin ? 'mx-4 sm:mx-[10%] md:mx-[15%] lg:mx-[20%] xl:mx-[25%] 2xl:mx-[30%]' : ''}>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -24,13 +30,9 @@ const App = () => {
         <Route path="/my-profile" element={<MyProfile />} />
         <Route path="/my-appointments" element={<MyAppointments />} />
         <Route path="/my-appointments/:docId" element={<Appointment />} />
-
-       
-        
       </Routes>
     </div>
   )
 }
 
 export default App
-
