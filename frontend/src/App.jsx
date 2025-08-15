@@ -1,5 +1,5 @@
 import React from 'react'
-import { Routes, Route, useLocation } from 'react-router-dom'
+import { Routes, Route,  } from 'react-router-dom'
 import Home from './pages/Home'
 import About from './pages/About'
 import Contact from './pages/Contact'
@@ -9,16 +9,15 @@ import MyProfile from './pages/MyProfile'
 import MyAppointments from './pages/MyAppointments'
 import Appointment from './pages/Appointment'
 import Navbar from './components/Navbar'
+import Footer from './components/Footer'
+import ScrollToTop from './components/ScrollToTop'
 
 const App = () => {
-  const location = useLocation()
 
-  // Routes that should NOT have margins (full-width layout)
-  const noMarginRoutes = ['/']
-  const hasMargin = !noMarginRoutes.includes(location.pathname)
-
+  
   return (
-    <div className={hasMargin ? 'mx-4 sm:mx-[10%] md:mx-[15%] lg:mx-[20%] xl:mx-[25%] 2xl:mx-[30%]' : ''}>
+    <div >
+      <ScrollToTop />
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -30,7 +29,9 @@ const App = () => {
         <Route path="/my-profile" element={<MyProfile />} />
         <Route path="/my-appointments" element={<MyAppointments />} />
         <Route path="/my-appointments/:docId" element={<Appointment />} />
+        <Route path="/appointment/:id" element={<Appointment />} />
       </Routes>
+      <Footer />
     </div>
   )
 }
