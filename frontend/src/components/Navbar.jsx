@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { assets } from '../assets/assets_frontend/assets';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { AppContext } from '../context/AppContext';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [token, setToken] = useState(true); // true = show profile
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // ✅ dropdown state
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { user, setUser } = useContext(AppContext);
   const navigate = useNavigate();
 
   // Detect scroll
@@ -62,7 +63,7 @@ const Navbar = () => {
 
           {/* Desktop Profile or Login */}
           <div className="hidden md:flex items-center relative">
-            {token ? (
+            {user ? (
               <div
                 className="flex items-center gap-2 cursor-pointer"
                 onClick={() => setIsDropdownOpen((prev) => !prev)}
@@ -72,6 +73,7 @@ const Navbar = () => {
                   src={assets.profile_pic}
                   alt="Profile"
                 />
+                <span className="text-sm font-medium text-gray-700">{user.name}</span>
                 <img
                   className="w-2.5"
                   src={assets.dropdown_icon}
@@ -88,25 +90,26 @@ const Navbar = () => {
             )}
 
             {/* Dropdown menu */}
-            {isDropdownOpen && token && (
+            {isDropdownOpen && user && (
               <div className="absolute top-full right-0 mt-2 w-40 bg-white shadow-lg rounded-md border">
                 <button
                   className="block w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100"
-                  onClick={() => navigate('/profile')}
+                  onClick={() => navigate('/my-profile')}
                 >
                   My Profile
                 </button>
                 <button
                   className="block w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100"
-                  onClick={() => navigate('/settings')}
+                  onClick={() => navigate('/my-appointments')}
                 >
-                  Settings
+                  My Appointments
                 </button>
                 <button
                   className="block w-full px-4 py-2 text-left text-red-600 hover:bg-red-100"
                   onClick={() => {
-                    setToken(false);
+                    setUser(null);
                     setIsDropdownOpen(false);
+                    navigate('/');
                   }}
                 >
                   Logout
@@ -148,7 +151,7 @@ const Navbar = () => {
 
             {/* Mobile Profile/Login */}
             <div className="border-t border-gray-200 mt-2 pt-2">
-              {token ? (
+              {user ? (
                 <div
                   className="flex items-center gap-2 cursor-pointer"
                   onClick={() => setIsDropdownOpen((prev) => !prev)}
@@ -158,6 +161,7 @@ const Navbar = () => {
                     src={assets.profile_pic}
                     alt="Profile"
                   />
+                  <span className="text-sm font-medium text-gray-700">{user.name}</span>
                   <img
                     className="w-2.5"
                     src={assets.dropdown_icon}
@@ -175,26 +179,27 @@ const Navbar = () => {
               )}
 
               {/* Mobile Dropdown */}
-              {isDropdownOpen && token && (
+              {isDropdownOpen && user && (
                 <div className="mt-2 bg-white shadow-lg rounded-md border">
                   <button
                     className="block w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100"
-                    onClick={() => navigate('/profile')}
+                    onClick={() => navigate('/my-profile')}
                   >
                     My Profile
                   </button>
                   <button
                     className="block w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100"
-                    onClick={() => navigate('/settings')}
+                    onClick={() => navigate('/my-appointments')}
                   >
-                    Settings
+                    My Appointments
                   </button>
                   <button
                     className="block w-full px-4 py-2 text-left text-red-600 hover:bg-red-100"
                     onClick={() => {
-                      setToken(false);
+                      setUser(null);
                       setIsDropdownOpen(false);
                       setIsMenuOpen(false);
+                      navigate('/');
                     }}
                   >
                     Logout
